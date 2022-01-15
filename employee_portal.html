@@ -1,0 +1,104 @@
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Graphs</title>
+    <link rel="stylesheet" href="employee_portal.css">
+  </head>
+
+  <body>
+    <section class="container">
+  
+
+      <!-- START - CIRCLE GRAPH -->
+      <div>
+        <figure class="chart" id="circle"data-percent="75">
+          <svg>
+            <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+            <circle class="outer" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+          </svg>
+
+          <figcaption>
+            <h2>50%</h2>
+            <p>Donators<br>  <br>Percentage</p>
+          </figcaption>
+        </figure>
+     
+        <figure class="chart" id="pizza"data-percent="pizza" >
+          <svg>
+            <defs>
+              <circle id="SVGID_1_" cx="1.5%" cy="52%" r="43%" stroke="#f0f" />
+            </defs>
+
+            <clipPath id="SVGID_2_">
+              <use xlink:href="#SVGID_1_" overflow="visible"/>
+            </clipPath>
+            
+            <circle  class="inner"cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+            <circle clip-path="url(#SVGID_2_)" class="outer pizza" cx="1.5%" cy="52%" r="40%" transform="rotate(-90, 95, 95)"/>
+          </svg>
+
+          <figcaption>
+            <h2>95%</h2>
+            <p>Requestors percentage & percentage of pending delivery</p>
+          </figcaption>
+          
+        </figure>
+        <br>
+        <br>
+        <div class="container1">
+        <p>Graph of countries contributed</p>
+        </div>
+        
+      </div>
+      
+      <!-- END - CIRCLE GRAPH -->
+      
+      
+      <!-- START - COLUMN GRAPH -->
+      <div class="column-graph">
+        <hr class="esq">
+        <hr class="bot">
+        <div class="column gringo" id="chile"></div>
+        <div class="column gringo" id="uruguai"></div>
+        <div class="column gringo" id="argentina"></div>
+        <div class="column gringo" id="eua"></div>
+        <div class="column nac"></div>
+        <div class="column gringo" id="canada"></div>
+      </div>
+      <!-- END - COLUMN GRAPH -->
+
+
+
+<div id="info1">
+  <div class="pessoa">
+    <svg> 
+      <g>
+        <path fill="#28708D" d="M29.259,28.819c-0.612,0-1.11,0-1.698,0c-0.021,0.421-0.057,0.806-0.057,1.19
+          c-0.003,18.582-0.007,37.164,0.005,55.746c0.001,1.634-0.326,3.05-1.718,4.121c-2.304,1.772-6.118,0.462-6.751-2.388
+          c-0.122-0.547-0.147-1.125-0.147-1.689c-0.009-10.525-0.007-21.05-0.007-31.575c0-0.338,0-0.676,0-1.09c-0.616,0-1.187,0-1.877,0
+          c0,0.372,0,0.731,0,1.09c0,10.639,0.004,21.277-0.004,31.916c-0.003,3.321-2.787,5.31-5.921,4.256
+          c-1.696-0.571-2.895-2.275-2.903-4.201c-0.015-3.915-0.005-7.83-0.005-11.745c0-14.894-0.005-29.788,0.015-44.682
+          c0.001-0.759-0.172-1.037-0.984-1.02c-0.833,0.017-0.727,0.51-0.727,1.016c0,6.298,0.001,12.596,0,18.894
+          c0,0.425,0.012,0.853-0.021,1.276c-0.136,1.733-1.313,2.869-3.034,2.949C1.769,52.96,0.309,51.77,0.071,50.13
+          c-0.053-0.363-0.059-0.735-0.059-1.103C0.009,41.68,0.033,34.332,0,26.985c-0.016-3.55,1.357-6.383,4.191-8.479
+          c1.618-1.197,3.5-1.706,5.507-1.709c5.447-0.008,10.894,0.013,16.341-0.007c5.682-0.021,9.719,4.661,9.704,9.727
+          c-0.022,7.66-0.008,15.319-0.007,22.979c0,1.283-0.46,2.358-1.599,2.982c-1.22,0.668-2.471,0.549-3.618-0.246
+          c-0.912-0.633-1.261-1.56-1.26-2.646c0.002-4.823,0.001-9.646,0-14.468C29.259,33.049,29.259,30.98,29.259,28.819z"/>
+        <path fill="#28708D" d="M17.803,14.819c-4.369-0.093-7.35-3.209-7.275-7.581c0.065-3.779,3.119-7.297,7.457-7.236
+          c4.128,0.058,7.448,3.488,7.38,7.546C25.293,11.779,22.039,14.909,17.803,14.819z"/>
+      </g>
+    </svg>
+
+  </div>
+
+</div>
+
+
+
+    </section>
+
+  </body>
+</html>
+
+      
+  

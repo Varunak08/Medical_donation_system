@@ -1,0 +1,140 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="donor_profile.css" />
+  </head>
+
+  <div class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1 class="title">Donator Profile</h1>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row cf">
+      <div id="card1" class="card four col">
+        <div class="image-wrapper"></div>
+        <h3 class="name" id="donor-name">Donator_1</h3>
+        <div class="info cf">
+          <div class="four col">
+            <span class="number" id="donated-amount">30</span>Donated
+          </div>
+          <!-- <div class="four col"><span class="number">28</span>Delivered</div>
+          <div class="four col"><span class="number">2</span>Pending</div> -->
+        </div>
+        <br />
+        <br />
+        <!-- <div class="">
+          <a href="delivery.html"><button>Delivery Status</button></a>
+        </div> -->
+      </div>
+
+      <div id="card2" class="card four col">
+        <div class="header"></div>
+        <div class="wrapper">
+          <div class="image-wrapper"></div>
+          <h3 class="name">Donate a medicine!<br />Medicine Details</h3>
+          <div class="social cf">
+            <div class="four col">
+              <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            </div>
+            <div class="four col">
+              <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            </div>
+            <div class="four col">
+              <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            </div>
+          </div>
+
+          <label for="name">Medicine Name:</label>
+          <input type="text" id="med-name" name="med_name" />
+          <br />
+          <br />
+          <label for="number">Med Quantity:</label>
+          <input type="number" id="quantity" name="Quantity" min="0" />
+          <br />
+          <br />
+          <button type="button" id="submit-btn" onClick="makeDonation()">
+            Donate
+          </button>
+        </div>
+      </div>
+
+      <div id="card3" class="card four col">
+        <div class="header"></div>
+        <div class="wrapper">
+          <h2>Feedback about our Portal</h2>
+          <input type="text" id="name" name="user_name" />
+          <h2>Rate our services</h2>
+          <input type="number" id="name" name="user_name" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function setupPage() {
+      const donorDetails = JSON.parse(localStorage.getItem("user_data"));
+      document.querySelector("#donor-name").innerHTML = donorDetails.donor_name;
+      const donationResp = await fetch("http://localhost:5000/donation", {
+        method: "GET",
+      });
+      let donationDetails = await donationResp.json();
+
+      const totalDonations = donationDetails.reduce(
+        (total, curr) =>
+          curr.donor_id === donorDetails.donor_id
+            ? total + curr.quantity
+            : total,
+        0
+      );
+      document.querySelector("#donated-amount").innerHTML = totalDonations;
+    }
+
+    setupPage();
+
+    async function makeDonation() {
+      const med_name = document.querySelector("#med-name").value;
+      const medQuantity = document.querySelector("#quantity").value;
+      const medResponse = await fetch(
+        "http://localhost:5000/medicines/specific",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: med_name }),
+        }
+      );
+      const medData = await medResponse.json();
+      if (medData.length === 0) return console.log("Medicine does not exist");
+      const medicine = medData[0];
+
+      if (localStorage.getItem("user_type") !== "donor")
+        return console.log("Only donors can donate");
+
+      const donor_id = localStorage.getItem("user_id");
+      const donationData = {
+        donor_id: parseInt(donor_id),
+        med_id: medicine.med_id,
+        quantity: parseInt(medQuantity),
+      };
+
+      const response = await fetch("http://localhost:5000/donation", {
+        body: JSON.stringify(donationData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+      const resData = await response.json();
+      console.log(resData);
+
+      document.querySelector("#med-name").value = "";
+      document.querySelector("#quantity").value = 0;
+    }
+  </script>
+</html>
