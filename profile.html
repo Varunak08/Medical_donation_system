@@ -1,6 +1,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="profile.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -97,7 +98,7 @@
                 <div class="profile-picture big-profile-picture clear">
                     <img width="150px" alt="Anne Hathaway picture" src="suchal.jpeg" >
                 </div>
-                <h1 class="user-name">Suchal Paladugu</h1>
+                <h1 class="user-name" id="emp-name">Suchal Paladugu</h1>
                 <div class="profile-description">
                     <p class="scnd-font-color">Employee of Team Oxygen</p>
                 </div>
@@ -128,19 +129,19 @@
             
             <div class="loading block"> <!-- LOADING (RIGHT-CONTAINER) -->
                 <div class="progress-bar downloading"></div>
-                <p><span class="icon fontawesome-cloud-download scnd-font-color"></span>Completed Task</p>
-                <p class="percentage">79<sup>%</sup></p>
+                <p><span class="icon fontawesome-cloud-download scnd-font-color"></span>Requests Delivered</p>
+                <p class="percentage" id="del-percent">79</p>
                 <div class="progress-bar uploading"></div>
-                <p><span class="icon fontawesome-cloud-upload scnd-font-color"></span>Pending Task</p>
-                <p class="percentage">21<sup>%</sup></p>
+                <p><span class="icon fontawesome-cloud-upload scnd-font-color"></span>Pending Requests</p>
+                <p class="percentage" id="pen-percent">21<sup>%</sup></p>
             </div>
             <div class="calendar-day block"> <!-- CALENDAR DAY (RIGHT-CONTAINER) -->
                 <div class="arrow-btn-container">
                     <a class="arrow-btn left" href="#200"><span class="icon fontawesome-angle-left"></span></a>
-                    <h2 class="titular">WEDNESDAY</h2>
+                    <h2 class="titular" id="cal-block-day-name">WEDNESDAY</h2>
                     <a class="arrow-btn right" href="#201"><span class="icon fontawesome-angle-right"></span></a>
                 </div>
-                    <p class="the-day">26</p>
+                    <p class="the-day" id="cal-block-day-name-major">26</p>
                     <a class="add-event button" href="#27">ADD EVENT</a>
             </div>
             <div class="calendar-month block"> <!-- CALENDAR MONTH (RIGHT-CONTAINER) -->
@@ -221,5 +222,39 @@
             </div> <!-- end calendar-month block --> 
         </div> <!-- end right-container -->
     </div> <!-- end main-container -->
+    <script>
+        let empDetails = JSON.parse(localStorage.getItem('user_data'));
+        let empNameNode = document.querySelector('#emp-name');
+        empNameNode.textContent = empDetails.emp_name;
+
+        let calBlockDayName = document.querySelector('#cal-block-day-name');
+        calBlockDayName.innerHTML = moment().format('dddd Do MMM');
+        
+        let calBlockDayNameMajor = document.querySelector('#cal-block-day-name-major');
+        calBlockDayNameMajor.innerHTML = moment().format('D')
+
+        async function setupPage() {
+            const response = await fetch('http://localhost:5000/medrequests', {
+                method: 'GET'
+            })
+            const respData = await response.json();
+            console.log(respData)
+            
+            let pendingReqs = 0, deliveredReqs = 0;
+            for (req of respData) {
+                if (req.req_status === 'Pending') pendingReqs++;
+                else deliveredReqs++;
+            }
+
+            const pendingPercent = (pendingReqs * 100 / (respData.length)).toFixed(2);
+            const deliveredPercent = (deliveredReqs * 100 / (respData.length)).toFixed(2);
+
+            document.querySelector('#pen-percent').innerHTML = `${Math.round(pendingPercent)}%`;
+            document.querySelector('#del-percent').innerHTML = `${Math.round(deliveredPercent)}%`;
+        }
+
+        setupPage()
+
+    </script>
 </body>
 </html>
